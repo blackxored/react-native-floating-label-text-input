@@ -39,8 +39,11 @@ class FloatingLabel extends Component {
   }
 
   render() {
+    const style = this.props.floatingLabelStyle
+      ? [styles.floatingLabel, { opacity: this.state.opacityAnim }, this.props.floatingLabelStyle]
+      : [styles.floatingLabel, { paddingBottom: this.state.paddingAnim, opacity: this.state.opacityAnim }]
     return (
-      <Animated.View style={[styles.floatingLabel, { paddingTop: this.state.paddingAnim, opacity: this.state.opacityAnim }]}>
+      <Animated.View style={style}>
         {this.props.children}
       </Animated.View>
     );
@@ -64,7 +67,7 @@ class TextFieldHolder extends Component {
 
   render() {
     return (
-      <Animated.View style={{ marginTop: this.state.marginAnim }}>
+      <Animated.View style={[{ marginTop: this.state.marginAnim }, this.props.textFieldHolderStyle]}>
         {this.props.children}
       </Animated.View>
     );
@@ -102,10 +105,10 @@ class FloatLabelTextField extends Component {
         <View style={styles.viewContainer}>
           <View style={[styles.paddingView, this.leftPadding()]} />
           <View style={[styles.fieldContainer, this.withBorder()]}>
-            <FloatingLabel visible={this.state.text}>
+            <FloatingLabel visible={this.state.text} floatingLabelStyle={this.props.floatingLabelStyle}>
               <Text style={[styles.fieldLabel, this.labelStyle()]}>{this.placeholderValue()}</Text>
             </FloatingLabel>
-            <TextFieldHolder withValue={this.state.text}>
+            <TextFieldHolder withValue={this.state.text} textFieldHolderStyle={this.props.textFieldHolderStyle}>
               <TextInput {...this.props}
                 ref='input'
                 underlineColorAndroid="transparent"
